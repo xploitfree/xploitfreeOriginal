@@ -1,6 +1,6 @@
 <?php
     $response = array();
-    $con = mysqli_connect("localhost","root","","EaseYourHire") or die(mysqli_error($con));
+    $con = mysqli_connect("localhost","root","","xploitfree") or die(mysqli_error($con));
     $body= file_get_contents('php://input');
     $string=json_decode($body);
     $name = $string->name;
@@ -13,94 +13,90 @@
         if (isset($name) && $name != "") {
             $name = filter_var($name, FILTER_SANITIZE_STRING);
             if ($name == "") {
-                $response = 'Please enter a valid name.<br/><br/>';
-                echo json_encode($response);
-            }
-        } else{
-            $response = 'Please enter your name.<br/>';
-            echo json_encode($response);
-        }
-        
-        //email
-        if ($email != "") {
-            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $response = "$email is <strong>NOT</strong> a valid email address.<br/><br/>";
-                echo json_encode($response);
+                $response['name'] = "Invalid Name";
             }
         } else {
-            $response = 'Please enter your email address.<br/>';
-            echo json_encode($response);
+            $response['name'] = "Invalid Name";
+               
+        }
+         //email
+         if ($email != "") {
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $response['email'] = "$email is not a valid email address.";
+                $email = "";
+            }
+        } else {
+            $response['email'] = "Not a valid email address.<br/><br/>";
+            
         }
         //phone
         if($phone != ""){
             $phone = (int)$phone;
-            if (!filter_var($phone, FILTER_SANITIZE_NUMBER_INT)) {
-                echo "Number is <strong>NOT</strong> valid.<br/><br/>";
+            $phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+            if (strlen($phone) > 10) {
+                $response['phone'] = "$phone is not valid.";
+                $phone = "";
             }else {
                 $phone = (string)$phone;
             }
         }else {
-            $response = 'Please enter your Number.<br/>';
-            echo json_encode($response);
+            $response['phone'] = 'Please enter your Number.';
+            
         }
-        //subject
-   if(isset($training) && $interest != ""){
-    //as it is
+       
+   if(isset($training) && $training != ""){
+    $training = filter_var($training, FILTER_SANITIZE_STRING);
+        if ($training == "") {
+                $response['training'] = "Invalid training";
+        }
    }else {
-       $response = "Subject cannot be null";
-       echo json_encode($response);
+       $response['training'] = "Cannot be null";
    }
    //domain
-    if (isset($domain) && $domain != "") {
+    if (isset($domain) || $domain != "") {
         $domain = filter_var($_POST['name'], FILTER_SANITIZE_URL);
-        $domain = filter_var(gethostbyname($domain), FILTER_VALIDATE_IP);
-        if ($domain == "") {
-            $response = 'Please enter a valid domain name.<br/><br/>';
-            echo json_encode($response);
+        if (!filter_var(gethostbyname($domain), FILTER_VALIDATE_IP)) {
+            $response['domain'] = 'Please enter a valid domain name.';
+            $domain = "";
         }
-    } else{
-        $response = 'Please enter your Business domain.<br/>';
-        echo json_encode($response);
     }
     //service
-    if (isset($service) && $service != "") {
+    if (isset($service) || $service != "") {
         $service = filter_var($service, FILTER_SANITIZE_STRING);
         if ($service == "") {
-            $response = 'Please enter desired service.<br/><br/>';
-            echo json_encode($response);
+            $response['service'] = 'Please enter desired service.';
+
         }
-    } else{
-        $response = 'Please enter desired service.<br/>';
-        echo json_encode($response);
     }
 
 }else {
-    $response = "credentials cannot be null";
-    echo json_encode($response);
+    $response['general'] = "credentials cannot be null";
+    
 }
 
 
 
 if ($name != "" && $phone != "" && $email != "" && $training != ""){
     $query1 = "INSERT INTO RegisteredStudents(name,email,phone) values('$name','$email','$phone')";
-    $query2 = "INSERT INTO StudentInterests(name,interest,phone) values('$name','$interest','$phone')";
+    $query2 = "INSERT INTO StudentInterests(name,interest,phone) values('$name','$training','$phone')";
     $query_result1 = mysqli_query($con,$query1);
     $query_result2 = mysqli_query($con,$query2);
 }
 
-if ($name != "" && $phone != "" && $service != "" && $email != ""){
+if ($name != "" && $phone != "" && $service != "" && $email != "" && $domain != ""){
     //something
 }
-
-    if($query_result1 && $query_result2){
-        $response['success'] = false;
-        $response['message'] = "wrong credentials";   
+    echo $query_result1;
+    echo $query_result2;
+    if($query_result1 || $query_result2){
+        $response['success'] = true;
+        $response['message'] = "successful";   
     }
     else{
         
-        $response['success'] = true;
-        $response['message'] = "successfully registered";
+        $response['success'] = false;
+        $response['message'] = "could not register";
     }
 
     echo json_encode($response);
