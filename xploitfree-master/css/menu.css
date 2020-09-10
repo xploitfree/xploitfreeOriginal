@@ -1,0 +1,219 @@
+:root{
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.section{
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-section2{
+    margin: 3rem auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sec-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card-link{
+    text-decoration: none;
+    margin: 2rem;
+    flex: 1;
+    flex-basis: 42%;
+}
+
+.card{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;    
+    box-shadow: -2px -2px 10px -2px rgba(0, 0, 0, 0.5), 2px 2px 10px -2px black;
+    transform-style: preserve-3d;
+    perspective: 200px;
+    perspective-origin: center;
+    transition: box-shadow 0.5s ease-in;
+    opacity: 0;
+}
+
+.left{
+    transform: translateX(-100px)
+}
+
+.right{
+    transform: translate(100px)
+}
+
+.left.animated, .right.animated{
+    opacity: 1;
+    transform: rotateY(0deg) translateZ(0);
+    transition: opacity .7s ease-out 0.2s, transform 1.2s ease-out;
+}
+
+.card:hover{
+    box-shadow: 0px 0px 4px 0px black;
+    transition: box-shadow 0.5s ease-in;
+}
+
+.card:hover .card-overlay{
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card-link:hover .card > img{
+    transform: scale(1.03);
+    transition: transform 0.5s ease-in-out;
+}
+
+.card > img{
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    transition: transform 0.5s ease-in-out;
+}
+
+
+.logo-sec{
+    align-items: center;
+}
+
+.logo-sec svg{
+    width: 18%;
+    z-index: 15;
+}
+
+.card-overlay{
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card-name, .card-action{
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+    position: absolute;
+    z-index: 12;
+}
+
+.card-name{
+    top: 85%;
+    transform: rotate3d(1, 0, 0, 45deg);
+    transition: top 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.card:hover .card-name{
+    top: 5%;
+    transform: rotate3d(1, 0, 0, -45deg);
+    transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.card-action{
+    top: 105%;
+    transform: rotate3d(1, 0, 0, 0deg);
+    transition: top 0.1s ease-in-out, transform 0.1s ease-in-out;
+    perspective: 135px;
+    perspective-origin: center;
+}
+
+.card:hover .card-action{
+    top: 85%;
+    transform: rotate3d(1, 0, 0, 45deg);
+    transition: top 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transition-delay: 0.25s;
+}
+
+.section-head{
+    opacity: 0;
+    transform: translateY(-50px);
+    text-align: center;
+    padding: 0 0.5rem 1rem 0.5rem;
+}
+
+.section-head.animated{
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1.2s ease-out, transform 1.5s ease-out;
+}
+
+.section-head-text{
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.section-para{
+    opacity: 0;
+    transform: translateY(50px);
+    padding: 0 0.5rem;
+    text-align: center;
+}
+
+.section-para.animated{
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1.2s ease-out, transform 1.5s ease-out;
+}
+
+.section-para-text{
+    font-size: 1.4rem;
+}
+
+.card-btn{
+    box-shadow: 0px 2px 7px 0px;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 0.3rem;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.btn-action:hover{
+    background: white;
+    transition: background 0.2s ease-in-out;
+}
+
+.card-list{
+    opacity: 0;
+    list-style: none;
+    color: white;
+    padding: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.card:hover .card-list{
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+    transition-delay: 0.4s;
+}
+
+.item-icon{
+    margin-right: 0.3em;
+}
+
+.item-text{
+    font-size: 1.2rem;
+    letter-spacing: 0.03rem;
+}
+
+.list-item{
+    display: flex;
+    margin: 0.3rem;
+}
