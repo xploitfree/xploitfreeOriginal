@@ -41,7 +41,7 @@
                 $email = "";
             }
         } else {
-            $response['email'] = "Not a valid email address.<br/><br/>";
+            $response['email'] = "Not a valid email address.";
             
         }
         //phone
@@ -75,8 +75,6 @@
     $query_result1 = mysqli_query($con,$query1);
     $query_result2 = mysqli_query($con,$query2);
 
-    }
-
     if($query_result1 || $query_result2){
         $response['success'] = true;
         $response['message'] = "Your query has been submitted";  
@@ -89,6 +87,12 @@
         echo json_encode($response);
     }
 
+    }else{
+        $response['general'] = "Wrong credentials";
+        echo json_encode($response);
+    }
+
+    
 
 }else {
     $response['general'] = "credentials cannot be null";
