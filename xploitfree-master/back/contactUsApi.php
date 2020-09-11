@@ -5,7 +5,6 @@
     $string=json_decode($body);
     $name = $string->name;
     $message = $string->message;
-    $email = $string->email;
     $sub = $string->sub;
     $phone = $string->phone;
     //check when submitted
@@ -32,7 +31,8 @@
                 
         }
         //email
-        if (isset($email) && $email != "") {
+        if (isset($string->email) && $string->email != "") {
+            $email = $string->email;
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $response['email'] = "$email is not a valid email address.";
