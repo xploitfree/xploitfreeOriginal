@@ -10,7 +10,7 @@
     $phone = $string->phone;
     //check when submitted
     if($name!="" && $message!="" && $email!="" && $sub!="" && $phone!=""){
-        if ($name != "") {
+        if (isset($name) && $name != "") {
             $name = filter_var($name, FILTER_SANITIZE_STRING);
             if ($name == "") {
                 $response['name'] = "Invalid Name";
@@ -21,7 +21,7 @@
                
         }
          //message
-        if ($message != "") {
+        if (isset($message) && $message != "") {
             $message = filter_var($message, FILTER_SANITIZE_STRING);
             if ($message == "") {
                 $response['message'] = "Invalid message";
@@ -32,7 +32,7 @@
                 
         }
         //email
-        if ($email != "") {
+        if (isset($email) && $email != "") {
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $response['email'] = "$email is not a valid email address.";
@@ -43,7 +43,7 @@
             
         }
         //phone
-        if($phone != ""){
+        if(isset($phone) && $phone != ""){
             $phone = (int)$phone;
             $phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
             if (strlen($phone) > 10) {
@@ -57,7 +57,7 @@
             
         }
         //subject
-   if($sub != ""){
+   if(isset($sub) && $sub != ""){
     $sub = filter_var($sub, FILTER_SANITIZE_STRING);
     if ($sub == "") {
         $response['name'] = "Invalid subject";
