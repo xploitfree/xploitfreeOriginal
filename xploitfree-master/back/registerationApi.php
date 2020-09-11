@@ -51,7 +51,7 @@
          if ($email != "") {
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $response['message'] = "$email is not a valid email address.";
+                $response['message'] = "email is not a valid email address.";
                 $response['success'] = false;
                 echo json_encode($response);
                 exit();
@@ -68,7 +68,7 @@
             $phone = (int)$phone;
             $phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
             if (strlen($phone) > 10) {
-                $response['message'] = "$phone is not valid.";
+                $response['message'] = "Number is not valid.";
                 $response['success'] = false;
                 echo json_encode($response);
                 exit();
