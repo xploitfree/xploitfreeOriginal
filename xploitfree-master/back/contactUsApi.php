@@ -3,13 +3,15 @@
     $response = array();
     $body= file_get_contents('php://input');
     $string=json_decode($body);
-    $name = $string->name;
-    $message = $string->message;
-    $sub = $string->sub;
-    $phone = $string->phone;
+    
     //check when submitted
-    if($name!="" && $message!="" && $email!="" && $sub!="" && $phone!=""){
-        if (isset($name) && $name != "") {
+    if(isset($string->name) && isset($string->message) && isset($string->email) && isset($string->sub) && isset($string->phone)){
+        $name = $string->name;
+        $email = $string->email;
+        $message = $string->message;
+        $sub = $string->sub;
+        $phone = $string->phone;
+        if ($name != "") {
             $name = filter_var($name, FILTER_SANITIZE_STRING);
             if ($name == "") {
                 $response['name'] = "Invalid Name";
@@ -20,7 +22,7 @@
                
         }
          //message
-        if (isset($message) && $message != "") {
+        if ($message != "") {
             $message = filter_var($message, FILTER_SANITIZE_STRING);
             if ($message == "") {
                 $response['message'] = "Invalid message";
@@ -31,7 +33,7 @@
                 
         }
         //email
-        if (isset($string->email) && $string->email != "") {
+        if ($email != "") {
             $email = $string->email;
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -43,7 +45,7 @@
             
         }
         //phone
-        if(isset($phone) && $phone != ""){
+        if($phone != ""){
             $phone = (int)$phone;
             $phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
             if (strlen($phone) > 10) {
@@ -57,7 +59,7 @@
             
         }
         //subject
-   if(isset($sub) && $sub != ""){
+   if($sub != ""){
     $sub = filter_var($sub, FILTER_SANITIZE_STRING);
     if ($sub == "") {
         $response['name'] = "Invalid subject";
@@ -67,11 +69,7 @@
        
    }
 
-}else {
-    $response['general'] = "credentials cannot be null";
-    
-}
-    if ($name != "" && $phone != "" && $email != "" && $sub != ""){
+   if ($name != "" && $phone != "" && $email != "" && $sub != ""){
     $query1 = "INSERT INTO messagesTable1Num(phone,name,email) VALUES ('$phone','$name','$email')";
     $query2 = "INSERT INTO messagesTable2mes(sub,message,phone) VAlues ('$sub','$message','$phone')";
     $query_result1 = mysqli_query($con,$query1);
@@ -91,5 +89,12 @@
         echo json_encode($response);
     }
 
+
+}else {
+    $response['general'] = "credentials cannot be null";
+    echo json_encode($response);
+}
+
+    
     
 ?>
