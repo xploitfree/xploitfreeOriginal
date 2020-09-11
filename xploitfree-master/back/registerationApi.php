@@ -20,7 +20,7 @@
                
         }
          //email
-         if ($email != "") {
+         if (isset($email) && $email != "") {
             $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $response['email'] = "$email is not a valid email address.";
@@ -31,7 +31,7 @@
             
         }
         //phone
-        if($phone != ""){
+        if(isset($phone) && $phone != ""){
             $phone = (int)$phone;
             $phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
             if (strlen($phone) > 10) {
