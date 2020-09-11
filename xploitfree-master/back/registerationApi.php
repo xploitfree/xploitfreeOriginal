@@ -107,6 +107,11 @@
             exit();
         
         }
+    }else {
+        $response['message'] = 'Please enter your domain name';
+        $response['success'] = false;
+        echo json_encode($response);
+        exit();
     }
 }
     //service
@@ -119,6 +124,11 @@
             echo json_encode($response);
             exit();
         }
+    }else {
+        $response['message'] = 'Please enter your desrired service.';
+        $response['success'] = false;
+        echo json_encode($response);
+        exit();
     }
 }
 
